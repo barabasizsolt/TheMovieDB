@@ -2,9 +2,9 @@ import React from "react";
 import "./style.css";
 import movieLogo from "./moviedb.jpg";
 import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
-import { HomePage } from "../Home";
+import { HomePage } from "../Home/home";
 import Holder from "../Holder/holder";
-import { Genre, Person, Trending } from "../../constants";
+import { Genre, Person, Trending } from "../../constants/constants";
 
 interface NavBarState {
   genres: Genre[];

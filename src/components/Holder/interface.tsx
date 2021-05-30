@@ -1,4 +1,4 @@
-import { Genre, IHash, Movie, TV } from "../../constants";
+import { Genre, Movie, TV } from "../../constants/constants";
 
 export interface HolderProps {
   genres: Genre[];

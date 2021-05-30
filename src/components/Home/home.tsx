@@ -1,6 +1,6 @@
 import React from "react";
-import { getGenres, mediaType, Person } from "../../constants";
-import { FlipCard } from "../FlipCard";
+import { getGenres, mediaType, Person } from "../../constants/constants";
+import { FlipCard } from "../FlipCard/flipcard";
 import { HomePageProps } from "./interface";
 import "./style.css";
 

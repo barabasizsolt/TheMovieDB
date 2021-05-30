@@ -1,10 +1,16 @@
 import React from "react";
-import { FlipCard } from "../FlipCard/index";
+import { FlipCard } from "../FlipCard/flipcard";
 import { HolderState, HolderProps } from "./interface";
-import { Genres } from "../Genres/index";
+import { Genres } from "../Genres/genres";
 import "./style.css";
-import { SearchBar } from "../SearchBar/index";
-import { BASE_PATH, MIN_PAGE, MAX_PAGE, getGenres } from "../../constants";
+import { SearchBar } from "../SearchBar/search";
+import {
+  BASE_PATH,
+  MIN_PAGE,
+  MAX_PAGE,
+  getGenres,
+} from "../../constants/constants";
+import { NotFound } from "./notfound";
 const lodash = require("lodash");
 
 class Holder extends React.Component<HolderProps, HolderState> {
@@ -189,23 +195,27 @@ class Holder extends React.Component<HolderProps, HolderState> {
             onChange={this.handleFilterByName}
           />
           <div className="card-container">
-            {this.state.results.map((res: any) => (
-              <FlipCard
-                className={"card-item"}
-                title={"title" in res ? res?.title : res?.name}
-                img={BASE_PATH + res?.poster_path}
-                vote_average={"Vote average: " + res?.vote_average}
-                release_date={
-                  "Released date: " + "release_date" in res
-                    ? res?.release_date
-                    : res?.first_air_date
-                }
-                overview={
-                  generatedGenres["title" in res ? res?.title : res?.name]
-                }
-                key={res?.id}
-              />
-            ))}
+            {this.state.results.length > 0 ? (
+              this.state.results.map((res: any) => (
+                <FlipCard
+                  className={"card-item"}
+                  title={"title" in res ? res?.title : res?.name}
+                  img={BASE_PATH + res?.poster_path}
+                  vote_average={"Vote average: " + res?.vote_average}
+                  release_date={
+                    "Released date: " + "release_date" in res
+                      ? res?.release_date
+                      : res?.first_air_date
+                  }
+                  overview={
+                    generatedGenres["title" in res ? res?.title : res?.name]
+                  }
+                  key={res?.id}
+                />
+              ))
+            ) : (
+              <NotFound className="not-found" />
+            )}
           </div>
         </div>
       </div>
