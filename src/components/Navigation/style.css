@@ -1,5 +1,5 @@
 .header {
-  height: 120px;
+  height: 110px;
   background-color: #032541;
   width: 100%;
   display: flex;
@@ -14,12 +14,8 @@
 }
 
 .logo img {
-  height: 105px;
+  height: 110px;
   width: auto;
-}
-
-.logo img:hover {
-  transform: scale(1.1);
 }
 
 .header-links {
