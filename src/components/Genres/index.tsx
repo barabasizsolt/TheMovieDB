@@ -1,5 +1,5 @@
 import React from "react";
-import { Genre } from "../Navigation/index";
+import { Genre } from "../../constants";
 import "./style.css";
 
 interface InputProps {

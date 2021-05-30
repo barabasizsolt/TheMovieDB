@@ -1,22 +1,18 @@
 import React from "react";
 import { FlipCard } from "../FlipCard/index";
-import { TVHolderState, HolderProps, IHash } from "./interface";
+import { HolderState, HolderProps } from "./interface";
 import { Genres } from "../Genres/index";
 import "./style.css";
 import { SearchBar } from "../SearchBar/index";
-import { BASE_PATH, MIN_PAGE, MAX_PAGE } from "../../constants";
+import { BASE_PATH, MIN_PAGE, MAX_PAGE, getGenres } from "../../constants";
 const lodash = require("lodash");
 
-//TODO: ha nincs kep akkor placehorder
-//TODO: ha nincs film megjeleniteni vmit
-//BUG: egy egy kep szurke
-
-class TVHolder extends React.Component<HolderProps, TVHolderState> {
+class Holder extends React.Component<HolderProps, HolderState> {
   inputRef: React.RefObject<HTMLFormElement>;
   genresIdList: number[] = [];
-  selectedGenresId = "16";
+  selectedGenresId = "878";
   page = 1;
-  tvPage = 1;
+  filterPage = 1;
   filterFromSearchBar = false;
   query = "";
 
@@ -43,10 +39,10 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
       }
       this.filterPages();
     } else {
-      if (this.tvPage === MAX_PAGE) {
-        this.tvPage = MIN_PAGE;
+      if (this.filterPage === MAX_PAGE) {
+        this.filterPage = MIN_PAGE;
       } else {
-        this.tvPage++;
+        this.filterPage++;
       }
       this.findMovieByName();
     }
@@ -61,10 +57,10 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
       }
       this.filterPages();
     } else {
-      if (this.tvPage === 1) {
-        this.tvPage = MAX_PAGE;
+      if (this.filterPage === 1) {
+        this.filterPage = MAX_PAGE;
       } else {
-        this.tvPage--;
+        this.filterPage--;
       }
       this.findMovieByName();
     }
@@ -98,7 +94,7 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
     console.log(this.query.length);
 
     if (this.query !== "") {
-      this.tvPage = MIN_PAGE;
+      this.filterPage = MIN_PAGE;
       lodash.debounce(this.findMovieByName, 500)();
     } else {
       this.filterFromSearchBar = false;
@@ -107,53 +103,66 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
   };
 
   filterPages = () => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&with_genres=${this.selectedGenresId}&page=${this.page}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.results !== undefined) {
-          this.setState({
-            results: json.results,
-          });
-        }
-      });
-    this.inputRef.current?.reset();
+    if (this.props.type === "movie") {
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&with_genres=${this.selectedGenresId}&page=${this.page}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.results !== undefined) {
+            this.setState({
+              results: json.results,
+            });
+          }
+        });
+      this.inputRef.current?.reset();
+    } else if (this.props.type === "tv") {
+      fetch(
+        `https://api.themoviedb.org/3/discover/tv?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&with_genres=${this.selectedGenresId}&page=${this.page}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.results !== undefined) {
+            this.setState({
+              results: json.results,
+            });
+          }
+        });
+      this.inputRef.current?.reset();
+    }
   };
 
   findMovieByName = () => {
-    fetch(
-      `https://api.themoviedb.org/3/search/tv?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&query=${this.query}&page=${this.tvPage}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.results !== undefined) {
-          this.setState({
-            results: json.results,
-          });
-        }
-      });
-  };
-
-  getGenres = () => {
-    const { genres } = this.props;
-    const generatedGenres: IHash = {};
-
-    this.state.results.forEach((res) => {
-      var filtered = genres.filter(function (item) {
-        return res?.genre_ids.indexOf(item.id) !== -1;
-      });
-
-      const totalGenres = filtered.map((e) => e.name).join(" ");
-      generatedGenres[res?.name] = totalGenres;
-    });
-
-    return generatedGenres;
+    if (this.props.type === "movie") {
+      fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&query=${this.query}&page=${this.filterPage}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.results !== undefined) {
+            this.setState({
+              results: json.results,
+            });
+          }
+        });
+    } else if (this.props.type === "tv") {
+      fetch(
+        `https://api.themoviedb.org/3/search/tv?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US&query=${this.query}&page=${this.filterPage}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.results !== undefined) {
+            this.setState({
+              results: json.results,
+            });
+          }
+        });
+    }
   };
 
   render() {
     const { genres } = this.props;
-    const generatedGenres = this.getGenres();
+    const generatedGenres = getGenres(genres, this.state.results);
 
     return (
       <div className="main-container">
@@ -176,18 +185,24 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
           <SearchBar
             ref={this.inputRef}
             className="search-bar"
-            placeholder="Search for TV series..."
+            placeholder="Search for movies..."
             onChange={this.handleFilterByName}
           />
           <div className="card-container">
-            {this.state.results.map((res) => (
+            {this.state.results.map((res: any) => (
               <FlipCard
                 className={"card-item"}
-                title={res?.name}
+                title={"title" in res ? res?.title : res?.name}
                 img={BASE_PATH + res?.poster_path}
                 vote_average={"Vote average: " + res?.vote_average}
-                release_date={"Released date: " + res?.first_air_date}
-                overview={generatedGenres[res?.name]}
+                release_date={
+                  "Released date: " + "release_date" in res
+                    ? res?.release_date
+                    : res?.first_air_date
+                }
+                overview={
+                  generatedGenres["title" in res ? res?.title : res?.name]
+                }
                 key={res?.id}
               />
             ))}
@@ -198,4 +213,4 @@ class TVHolder extends React.Component<HolderProps, TVHolderState> {
   }
 }
 
-export default TVHolder;
+export default Holder;

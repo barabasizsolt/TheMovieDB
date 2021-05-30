@@ -1,65 +1,14 @@
 import React from "react";
+import { getGenres, mediaType, Person } from "../../constants";
 import { FlipCard } from "../FlipCard";
-import { IHash } from "../Holder/interface";
-import { Genre } from "../Navigation";
+import { HomePageProps } from "./interface";
 import "./style.css";
-
-export interface Trending {
-  media_type: string;
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-export interface Person {
-  known_for_department: string;
-  id: number;
-  name: string;
-  known_for: Trending[];
-  profile_path: string;
-  adult: boolean;
-  gender: number;
-  popularity: number;
-  media_type: string;
-}
-
-interface HomePageProps {
-  trendings: Trending[];
-  people: Person[];
-  genres: Genre[];
-}
 
 const basePath = "https://image.tmdb.org/t/p/w400/";
 
-const getGenres = (trending: Trending[], genres: Genre[]) => {
-  const generatedGenres: IHash = {};
-
-  trending.forEach((res) => {
-    var filtered = genres.filter(function (item) {
-      return res?.genre_ids.indexOf(item.id) !== -1;
-    });
-
-    const totalGenres = filtered.map((e) => e.name).join(" ");
-    generatedGenres[res?.title] = totalGenres;
-  });
-
-  return generatedGenres;
-};
-
 export const HomePage: React.FC<HomePageProps> = (props) => {
   const { trendings, genres, people } = props;
-  const generatedGenres = getGenres(trendings, genres);
+  const generatedGenres = getGenres(genres, trendings);
 
   return (
     <div className="main">
@@ -69,14 +18,21 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
       <h2>What's Popular</h2>
       <div className="card-holder">
         <div className="row">
-          {trendings.map((res) => (
+          {trendings.map((res: any) => (
             <FlipCard
               className="card"
-              title={res?.title}
+              title={"title" in res ? res?.title : res?.name}
               img={basePath + res?.poster_path}
               vote_average={"Vote average: " + res?.vote_average}
-              release_date={"Released date: " + res?.release_date}
-              overview={generatedGenres[res?.title]}
+              release_date={
+                "Released date: " + "release_date" in res
+                  ? res?.release_date
+                  : res?.first_air_date
+              }
+              overview={
+                generatedGenres["title" in res ? res?.title : res?.name]
+              }
+              type={mediaType[res?.media_type]}
               key={res?.id}
             />
           ))}
@@ -85,7 +41,7 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
       <h2>Famous Actors</h2>
       <div className="card-holder">
         <div className="row-person">
-          {people.map((res) => (
+          {people.map((res: Person) => (
             <FlipCard
               className="card"
               title={res?.name}

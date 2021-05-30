@@ -2,14 +2,9 @@ import React from "react";
 import "./style.css";
 import movieLogo from "./moviedb.jpg";
 import { BrowserRouter, Link, Redirect, Route, Switch } from "react-router-dom";
-import { HomePage, Person, Trending } from "../Home";
-import MovieHolder from "../Holder/movie";
-import TVHolder from "../Holder/tv";
-
-export class Genre {
-  id: number;
-  name: string;
-}
+import { HomePage } from "../Home";
+import Holder from "../Holder/holder";
+import { Genre, Person, Trending } from "../../constants";
 
 interface NavBarState {
   genres: Genre[];
@@ -29,6 +24,7 @@ class NavBar extends React.Component<{}, NavBarState> {
   }
 
   componentDidMount() {
+    //getting the genres.
     fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=93697a6983d40e793bc6b81401c77e1c&language=en-US"
     )
@@ -39,8 +35,9 @@ class NavBar extends React.Component<{}, NavBarState> {
         });
       });
 
+    //getting the trendings.
     fetch(
-      "https://api.themoviedb.org/3/trending/movie/week?api_key=93697a6983d40e793bc6b81401c77e1c"
+      "https://api.themoviedb.org/3/trending/all/week?api_key=93697a6983d40e793bc6b81401c77e1c"
     )
       .then((res) => res.json())
       .then((json) => {
@@ -49,6 +46,7 @@ class NavBar extends React.Component<{}, NavBarState> {
         });
       });
 
+    //getting the actors.
     fetch(
       "https://api.themoviedb.org/3/trending/person/week?api_key=93697a6983d40e793bc6b81401c77e1c&page=2"
     )
@@ -81,20 +79,20 @@ class NavBar extends React.Component<{}, NavBarState> {
           </div>
         </div>
         <Switch>
-          <Route exact path="/">
+          <Route key="home" exact path="/">
             <HomePage
               trendings={this.state.trendings}
               genres={this.state.genres}
               people={this.state.people}
             />
           </Route>
-          <Route exact path="/movie">
-            <MovieHolder genres={this.state.genres} />
+          <Route key="movie" exact path="/movie">
+            <Holder genres={this.state.genres} type="movie" />
           </Route>
-          <Route exact path="/tv">
-            <TVHolder genres={this.state.genres} />
+          <Route key="tv" exact path="/tv">
+            <Holder genres={this.state.genres} type="tv" />
           </Route>
-          <Redirect to="/" />
+          <Redirect key="home" to="/" />
         </Switch>
       </BrowserRouter>
     );
