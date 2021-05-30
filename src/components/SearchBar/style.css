@@ -1,0 +1,26 @@
+.searchbar {
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  margin-left: 15%;
+  padding: 15px;
+  border-radius: 50px;
+  height: 15px;
+  width: 400px;
+  font-size: 15px;
+}
+
+input[type="text"] {
+  width: 30%;
+  -webkit-transition: width 0.15s ease-in-out;
+  transition: width 0.15s ease-in-out;
+}
+
+input[type="text"]:focus {
+  width: 40%;
+  outline: none;
+  transform: scale(1.05);
+}
+
+input[type="text"]:hover {
+  transform: scale(1.05);
+  width: 40%;
+}

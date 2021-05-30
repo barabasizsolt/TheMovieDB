@@ -1,0 +1,17 @@
+.container {
+  color: white;
+  max-width: 250px;
+}
+
+.categories {
+  margin-top: 20px;
+  width: 15px;
+  height: 15px;
+}
+
+.categorie-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 20px;
+}

@@ -1,0 +1,70 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  background-color: #543864;
+  height: 50vw;
+}
+
+.card-holder {
+  background-color: #3c415c;
+}
+
+.row {
+  display: grid;
+  grid-auto-flow: column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 95vw;
+  height: 430px;
+  gap: 20px;
+  padding-top: 20px;
+  margin-left: 45px;
+  margin-bottom: 20px;
+}
+
+.row-person {
+  display: grid;
+  grid-auto-flow: column;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 95vw;
+  height: 180px;
+  gap: 20px;
+  padding-top: 20px;
+  margin-left: 55px;
+  margin-bottom: 20px;
+}
+
+.card {
+  align-self: center;
+}
+
+.head {
+  color: #dbd8e3;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.main h3,
+h2 {
+  margin-left: 50px;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  color: #dbd8e3;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}

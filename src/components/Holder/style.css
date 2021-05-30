@@ -1,0 +1,56 @@
+.card-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  background-color: #543864;
+  grid-row-gap: 40px;
+  grid-column-gap: 40px;
+  padding-right: 30px;
+  padding-bottom: 100px;
+  padding-top: 20px;
+  padding-left: 30px;
+}
+
+.main-container {
+  padding-right: 0;
+  margin-right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #3c415c;
+}
+
+.genres {
+  padding-left: 30px;
+  width: 100px;
+}
+
+.filter-button {
+  margin-top: 30px;
+  font-size: 20px;
+  height: 50px;
+  width: 100px;
+  border: 1px solid black;
+  border-radius: 25px;
+  background-color: #a58faa;
+  color: #3c415c;
+  font-weight: 600;
+  margin-right: 20px;
+}
+
+.filter-button:hover {
+  transform: scale(1.05);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-bar {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
