@@ -22,7 +22,7 @@ const Input: React.FC<InputProps> = (props) => {
         name={name}
         value={value}
       />
-      <label>{children}</label>
+      <label className={className}>{children}</label>
     </div>
   );
 };

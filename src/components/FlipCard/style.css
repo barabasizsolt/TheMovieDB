@@ -45,14 +45,14 @@ body {
   color: #dbd8e3;
   transform: rotateY(180deg);
   text-align: center;
-  padding-top: 20px;
   border-radius: 5%;
+  overflow-y: hidden;
 }
 
 .flip-card-back-overview {
   font-size: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .flip-card-front img {
@@ -61,7 +61,9 @@ body {
   border-radius: 5%;
 }
 
-.flip-card-back h1 {
-  padding-left: 10px;
-  padding-right: 10px;
+.flip-card-title {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }

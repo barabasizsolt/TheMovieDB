@@ -38,7 +38,7 @@ export const FlipCard: React.FC<FlipCardProps> = (props) => {
           />
         </div>
         <div className="flip-card-back" style={{ fontSize: fsize }}>
-          <h1>{title}</h1>
+          <p className="flip-card-title">{title}</p>
           <p>{release_date}</p>
           <p>{vote_average}</p>
           <div className="flip-card-back-overview">

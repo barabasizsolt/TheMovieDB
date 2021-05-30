@@ -33,6 +33,8 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
                 generatedGenres["title" in res ? res?.title : res?.name]
               }
               type={mediaType[res?.media_type]}
+              width="200px"
+              height="300px"
               key={res?.id}
             />
           ))}
@@ -44,11 +46,11 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
           {people.map((res: Person) => (
             <FlipCard
               className="card"
-              title={res?.name}
+              overview={res?.popularity.toString()}
               img={basePath + res?.profile_path}
-              width="100px"
-              height="150px"
-              fsize="9px"
+              width="90px"
+              height="140px"
+              fsize="4px"
             />
           ))}
         </div>

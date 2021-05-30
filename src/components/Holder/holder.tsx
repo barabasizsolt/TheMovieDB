@@ -168,14 +168,14 @@ class Holder extends React.Component<HolderProps, HolderState> {
 
   render() {
     const { genres } = this.props;
-    const generatedGenres = getGenres(genres, this.state.results);
+    const generatedGenres = getGenres(genres!, this.state.results);
 
     return (
       <div className="main-container">
         <div>
           <Genres
             className="genres"
-            genres={genres}
+            genres={genres!}
             onClick={this.handleGenresClick}
           />
           <div className="button-group">
@@ -210,6 +210,8 @@ class Holder extends React.Component<HolderProps, HolderState> {
                   overview={
                     generatedGenres["title" in res ? res?.title : res?.name]
                   }
+                  width="250px"
+                  height="350px"
                   key={res?.id}
                 />
               ))
