@@ -45,5 +45,9 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+## Screenshots
+![](https://github.com/barabasizsolt/TheMovieDB/blob/master/moviedb_home.png)
 
-![](https://github.com/barabasizsolt/TheMovieDB/blob/moviedb.png)
+
+![](https://github.com/barabasizsolt/TheMovieDB/blob/master/moviedb.png)
+
